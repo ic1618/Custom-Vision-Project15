@@ -162,7 +162,10 @@ def main(file_path):
 
     with open("detected.json","w") as store:
         json.dump(detected, store, indent=3)
-
+        
+    df = pd.read_json("detected.json")
+    df.to_csv("detected_csv.csv")
+    
 if __name__ == '__main__':
     if len(sys.argv) <= 1:
         print('USAGE: {} sound_path'.format(sys.argv[0]))
