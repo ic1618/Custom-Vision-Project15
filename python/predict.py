@@ -49,9 +49,11 @@ def main(file_path):
     od_model = TFObjectDetection(MODEL_FILENAME, labels)
 
     detected = {
-        "filename": [],
-        "offset": [],
         "confidence": [],
+        "filename": [],
+        "offset (s)": [],
+        "start": [],
+        "end": [],
     }
 
     mylist = os.listdir(file_path)
@@ -129,8 +131,10 @@ def main(file_path):
                     print("GUNSHOT: ",current_s)
                     print(k)
                     detected['filename'].append(mylist[i])
-                    detected['offset'].append(current_s)
+                    detected['offset (s)'].append(current_s)
                     detected['confidence'].append(k['probability'])
+                    detected['start'].append(str(current_s+12000*(k['boundingBox']['left'])))
+                    detected['end'].append(str(current_s+12000*(k['boundingBox']['left']+k['boundingBox']['width'])))
 
                     image = cv2.imread(save_to)
                     top_left = (int(k['boundingBox']['left']*640),int(k['boundingBox']['top']*480))
